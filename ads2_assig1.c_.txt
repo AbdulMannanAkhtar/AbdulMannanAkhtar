@@ -1,0 +1,520 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#define bool int
+#define false 0
+#define true (!false)
+
+//Libraries
+#include <stdio.h>
+#include <stdlib.h>
+
+//Preprocessor Variable
+#define SIZE 5
+
+void inputDataAndSave(FILE*);
+void getFromFileAndDisplay(FILE*);
+
+//Stucture template for data part of the linked list
+
+//Stucture template for one node
+struct LinearNode {
+	struct book* element;
+	struct LinearNode* next;
+};
+
+typedef struct book
+{
+	char bookId[10];
+	char bookName[20];
+	char author[20];
+	int year;
+	bool loaned;
+	char customerName[20];
+	int numTimesBookLoaned;
+}book;
+
+
+// Function prototypes
+void Menu();
+void addBooks();
+void viewAllNodes();
+void deleteBook(year);
+void borrowBook();
+void returnBook();
+void popularBook();
+void viewSpecificBook();
+void checkAvaiability();
+
+// Global Variables
+struct LinearNode* front = NULL; //front of the list
+
+struct LinearNode* last = NULL; //pointer to last node in the list
+
+
+
+/**************MAIN FUNCTION*******************/
+void main() {
+	char id;
+
+	Menu();
+
+	getchar(); getchar();
+
+	FILE* fp;
+
+
+
+	fp = fopen("book.dat", "r"); //open a text file for reading - this will give an error if no file
+	if (fp == NULL) //if the file doesn't already exist, ask user to input
+		inputDataAndSave(fp);    //values and immediately save to the file
+	else
+		getFromFileAndDisplay(fp); //othewise copy the values from the file and display.
+}
+
+/*******************************************/
+
+
+// Menu
+
+void Menu()
+{
+	char userInput[5];
+
+	do
+	{
+		printf("------------- Welcome to Abdul's Library ------------------");
+		printf("\n");
+		printf("\n -------------- Select a Menu option ----------------------");
+		printf("\n 1.Add a new Book ");
+		printf("\n 2.Borrow a book ");
+		printf("\n 3.Return a book ");
+		printf("\n 4.Delete an old book for stock ");
+		printf("\n 5.View all books in stock ");
+		printf("\n 6.View a specfic book ");
+		printf("\n 7.Details on most and least popular books ");
+		printf("\n 8.check avaiability for books ");
+		printf("\n 9.Exit ");
+
+		scanf("%c", &userInput);
+	} while (userInput != "1" || userInput != "2" || userInput != "3" || userInput != "4" || userInput != "5"
+		|| userInput != "6" || userInput != "7" || userInput != "8" || userInput != "9");
+	
+
+	if (userInput == "1")
+	{
+		addBooks();
+	}
+	if (userInput == "2")
+	{
+		borrowBook();
+	}
+	if (userInput == "3")
+	{
+		returnBook();
+	}
+	if (userInput == "4")
+	{
+		deleteBook("%d");
+	}
+	if (userInput == "5")
+	{
+		viewAllBooks();
+	}
+	if (userInput == "6")
+	{
+		viewSpecificBook();
+	}
+	if (userInput == "7")
+	{
+		popularBook();
+	}
+	if (userInput == "8")
+	{
+		checkAvaiability();
+	}
+	if (userInput == "9")
+	{
+		exit();
+	}
+
+
+
+
+
+}
+
+/**********ADD THREE NODES TO THE LIST******************/
+// Each new node is added to the front of the list
+
+void addBooks()
+{
+	int i;
+	char value;
+	struct LinearNode* aNode;
+	struct book* anElement = NULL;
+	char bookId[10];
+	char bookName[20], author[20], customerName[20];
+	int numTimesBookLoaned = 0, year = 0; 
+	bool loaned = false;
+
+
+	// add SIZE nodes to the front
+	for (i = 0; i < SIZE; i++) {
+
+		printf("\nEnter the name of the book you would like to add: ");
+		scanf("%s",&bookName);
+		do
+		{
+			printf("\nEnter the book ID - this must be 8 characters in the form xxxx-xxxx: ");
+			scanf("%s",bookId);
+
+
+		} while (bookId[4] != '-' || strlen(bookId) != 9);
+
+		
+		printf("\nEnter the book author: ");
+		scanf("%c", &author);
+		value = getchar();
+
+		do 
+		{
+			printf("\nEnter the year the book was published in. Books must be pulished in or after 2017: ");
+			scanf("%d", &year);
+			value = getchar();
+		}while ("%d" < 2017);
+
+		if ("%d" == true)
+		{
+			printf("\nBook is currently loaned to a customer");
+		}
+		else
+		{
+			printf("\nBook is a available");
+		}
+
+		if ("%d" == true)
+		{
+			printf("Enter the customers name");
+			scanf("%c", &customerName);
+
+		}
+		else
+		{
+			customerName == ("");
+		}
+
+		getchar(); //clear the scanner
+		//create space for new data element
+		anElement = (struct data*)malloc(sizeof(struct book));
+
+		// create space for new node
+		aNode = (struct LinearNode*)malloc(sizeof(struct LinearNode));
+
+		//add book to book node
+		anElement->bookName[19] = bookName;
+		anElement->bookId[9] = bookId,
+		anElement->author[19] = author;
+		anElement->year = year;
+		anElement->loaned = loaned;
+		anElement->customerName[19] = customerName;
+
+
+		if (aNode == NULL)
+			printf("");
+			else { // add data part to the node
+			aNode->next = NULL;
+			aNode->element = anElement;
+
+			//add node to front of the node
+			if (isEmpty())
+			{
+				front = aNode;
+				last = aNode;
+			}
+			else {
+				front->next = aNode;
+				last = aNode;
+			} //end else
+			}//end else
+		}//end for
+
+	Menu();
+	} //end addNodes
+
+
+
+void borrowBook()
+{
+	
+	char id[10]; 
+	char cName[20];
+	int numberOfTimesLoaned = 0;
+	
+
+	printf("\nEnter the book id of the book you would like to borrow");
+	scanf("%c", &id);
+
+	for (struct LinearNode* current = front; current != NULL; current = current->next)
+	{
+		if (strcmp(id != current->element->bookId))
+		{
+			printf("\nThe book Id you have searched for is not in this list.");
+		}
+		else if (current->element->loaned == true)
+		{
+			printf("\nThis book is already on loan");
+		}
+		else if (strcmp(id == current->element->bookId))
+		{
+			printf("\nEnter customer name");
+			scanf("%c", &cName);
+			
+			current->element->customerName;
+
+			current->element->loaned == true;
+
+			numberOfTimesLoaned = current->element->numTimesBookLoaned + 1;
+		
+		}
+	}
+
+	Menu();
+
+}
+
+
+void returnBook()
+{
+	//bool loaned = false;
+	char id[10];
+	char cName[20];
+	
+
+	printf("\nEnter the Book Id of the book you want to return");
+	scanf("%d", &id);
+	printf("\nEnter the customer name");
+	scanf("%c", &cName);
+
+	for (struct LinearNode* current = front; current != NULL; current = current->next)
+	{
+		if (strcmp(id == current->element->bookId) && cName == current->element->customerName)
+		{
+			current->element->loaned == false;
+			printf("\n Book", &current->element->bookName, " with ID", &current->element->bookId, " has been returned");
+		}
+	}
+
+	Menu();
+}
+
+
+void popularBook()
+{
+	int mostBorrowed = 0;
+	int leastBorrowed = INT_MAX;
+	
+	for (struct LinearNode* current = front; current != NULL; current = current->next)
+	{
+		if (current->element->numTimesBookLoaned > mostBorrowed)
+		{
+			mostBorrowed = current->element->numTimesBookLoaned;
+			mostBorrowed = current->element->bookName;
+		}
+
+		else if (current->element->numTimesBookLoaned < leastBorrowed)
+		{
+			leastBorrowed = current->element->numTimesBookLoaned;
+			leastBorrowed = current->element->bookName;
+		}
+
+		printf("\n The most popular book is ", &current->element->bookName, " with the book ID", &current->element->bookId,
+			" it has been borrowed ", &current->element->numTimesBookLoaned, mostBorrowed);
+
+		printf("\n The least popular book is ", &current->element->bookName, " with the book ID", &current->element->bookId,
+			" it has been borrowed ", &current->element->numTimesBookLoaned, leastBorrowed);
+		
+	}
+
+	Menu();
+}
+		
+
+
+
+void viewAllBooks() {
+	struct LinearNode* current;
+
+	if (isEmpty())
+		printf("\n, List is empty");
+	else {
+		current = front;
+		while (current != NULL) {
+			printf("The details for the books in stock are: ");
+			printf("\Name: %c", current->element->bookName[19]);
+			printf("\nID: %c", current->element->bookId[9]);
+			printf("\nAuthor: %c", current->element->author[19]);
+			printf("\nYear: %d", current->element->year);
+			printf("\nCustomer name: %c", current->element->customerName[19]);
+			printf("\nNumber of times book has been loaned: %d", current->element->numTimesBookLoaned);
+			current = current->next;
+		} //end while
+	}//end else
+
+	Menu();
+} //end viewAllNodes
+
+
+void viewSpecificBook()
+{
+	char id[9];
+
+	printf("Enter the ID of the book's details you would like to see: ");
+	scanf("%c", &id);
+
+	for (struct LinearNode* current = front; current != NULL; current = current->next)
+	{
+		if (strcmp(id != current->element->bookId))
+		{
+			printf("The ID you have entered does not relate to any books in this librarys stock");
+		}
+		else
+		{
+			printf("The details for the book with ID ", &id, " are: ");
+			
+			printf("\Name: %c", current->element->bookName[19]);
+			printf("\nID: %c", current->element->bookId[9]);
+			printf("\nAuthor: %c", current->element->author[19]);
+			printf("\nYear: %d", current->element->year);
+			printf("\nCustomer name: %c", current->element->customerName[19]);
+			printf("\nNumber of times book has been loaned: %d", current->element->numTimesBookLoaned);
+				
+			
+		}
+	}
+}
+
+
+void deleteBook(int year) {
+	struct LinearNode* current, * previous;
+	bool found = false;
+	char id[10];
+	
+
+	printf("\nPlease enter the value in the node that you wish to delete : ");
+	printf("\n Books with a publication date older than 2010 can only be deleted");
+	scanf("%c", &id);
+
+	if (isEmpty())
+		printf("\nError - there are no nodes in the list");
+	else {
+		current = previous = front;
+
+		while (!found && current != NULL) {
+			if (id == current->element) {
+				year = current->element->year;
+				if (year >= 2010)
+				{
+					printf("\nCannot delete a book published in or after 2010.");
+				}
+				found = true;
+			}
+			else {
+				previous = current;
+				current = current->next;
+			}//end else
+		} //end while
+
+		if (!found)
+			printf("\nError - there is no such node with book id %d\n",id);
+		else { //find out the position of the node to delete
+			if (current == front) {
+				front = front->next;
+				free(current);
+			} //end else
+			else if (current == last) {
+				last = previous;
+				last->next = NULL;
+				free(current);
+			}
+			else { //delete an element in the middle of the list
+				previous->next = current->next;
+				free(current);
+			} //end else
+			printf("\nNode with value %c has been deleted from the list\n", id);
+		}//end else
+	}//end else
+	Menu();
+}// end deleteNode
+
+
+void checkAvaiability()
+{
+	for (struct LinearNode* current = front; current != NULL; current = current->next)
+	{
+		if (current->element->loaned == false)
+		{
+			printf("These books are currently available: ");
+			printf("%c", current->element->bookName);
+
+		}
+	}
+}
+
+bool isEmpty() {
+	if (front == NULL)
+		return true;
+	else
+		return false;
+}
+
+void exit()
+{
+	printf("\n Thank you for using my library system.");
+	exit(0);
+}
+
+void inputDataAndSave(FILE* fp) {
+	char bookId[10];
+	char bookName[20], author[20], customerName[20];
+	int numTimesBookLoaned = 0, year = 0;
+	bool loaned = false;
+
+	printf("Data file doesn't exist, so you must create the data yourself\n");
+	fp = fopen("text.dat", "w"); //create the file and open for writing.
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		printf("Enter book name : ");
+		scanf("%s", bookName);
+		printf("Enter book ID: ");
+		scanf("%s", &bookId);
+		printf("Enter author name : ");
+		scanf("%s", author);
+		printf("Enter customer name: ");
+		scanf("%s", &customerName);
+		printf("Enter publish year : ");
+		scanf("%d", year);
+		printf("Enter number of times loaned: ");
+		scanf("%d", &numTimesBookLoaned);
+
+		fprintf(fp, "%s %d\n", bookName, bookId, author, customerName, year, numTimesBookLoaned);
+	}
+	fclose(fp);
+}
+
+void  getFromFileAndDisplay(FILE* fp)
+{
+	char bookId[10];
+	char bookName[20], author[20], customerName[20];
+	int numTimesBookLoaned = 0, year = 0;
+	bool loaned = false;
+
+	printf("Data file does exist, so no need to create the data \n");
+	while (fscanf(fp, "%s%d", bookName, &bookId, &author, &customerName, &numTimesBookLoaned, &year) != EOF)
+	{
+		printf("book name = %s book id = %s  author = %s customer name = %s number of times loaned = %d year = %d\n", bookName, 
+			bookId, author, customerName, year, numTimesBookLoaned);
+	}
+
+	fclose(fp);
+
+}
