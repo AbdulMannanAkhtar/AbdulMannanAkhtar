@@ -1,0 +1,478 @@
+// Passenger class
+
+public class Passenger
+{
+    
+    private String name;
+    private String address;
+    private String emailAddress;
+    private Flight bookedFlight;
+    
+    // blank passenger
+    public Passenger()
+    {
+        this.name = "";
+        this.address = "";
+        this.emailAddress = "";
+        this.bookedFlight = null;
+    }
+    
+    // passenger with data
+    public Passenger(String name, String address, String emailAddress)
+    {
+        this.name = name;
+        this.address = address;
+        this.emailAddress = emailAddress;
+        this.bookedFlight = null;
+    }
+    
+    public Passenger(String name, String address, String emailAddress,  Flight bookedFlight)
+    {
+        this.name = name;
+        this.address = address;
+        this.emailAddress = emailAddress;
+        this.bookedFlight = bookedFlight;
+    }
+    
+    public String getName()
+    {
+        return this.name;
+    }
+    
+    public String getAddress()
+    {
+        return this.address;
+    }
+    
+    public String getEmailAddress()
+    {
+        return this.emailAddress;
+    }
+    
+    public Flight getBookedFlight()
+    {
+        return this.bookedFlight;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public void setAddress(String address)
+    {
+        this.address = address;     
+    }
+    
+    public void setEmailAddress(String EmailAddress)
+    {
+        this.emailAddress = emailAddress;
+    }
+    
+    public void setBookedFlight(Flight bookedFlight)
+    {
+        this.bookedFlight = bookedFlight;
+    }
+    
+    public boolean passengerBookedFlights()
+    {
+        if (bookedFlight != null)
+        {
+            System.out.println("Passenger has booked a flight ");
+            return true;
+        }
+        else
+        {
+            System.out.println("Passenger has not booked a flight ");
+            return false;
+        } 
+    }
+    
+    public String toString()
+    {
+        return "Passenger name is " + this.name + "\n" + 
+        "Passenger address is " + this.address + "\n" + 
+        "Passenger email address is " + this.emailAddress + "\n" + 
+        "Passenger has " + this.bookedFlight;
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Flight class
+
+public class Flight
+{
+    private String flightNumber;
+    private String weekDay;
+    private String destination;
+    private int seatsBookedNum;
+    
+    // blank flight
+    public Flight()
+    {
+        this.flightNumber = "";
+        this.weekDay = "";
+        this.destination = "";
+        this.seatsBookedNum = 0;
+    }
+    
+    public Flight(String flightNumber,String weekDay, String destination, int seatsBookedNum)
+    {
+        this.flightNumber = flightNumber;
+        this.weekDay = weekDay;
+        this.destination = destination;
+        this.seatsBookedNum = seatsBookedNum;
+        
+    }
+    
+    public String getFlightNumber()
+    {
+        return this.flightNumber;
+    }
+    
+    public String getWeekDay()
+    {
+        return this.weekDay;
+    }
+    
+    public String getDestination()
+    {
+        return this.destination;
+    }
+    
+    public int getSeatsBookedNum()
+    {
+        return this.seatsBookedNum;
+    }
+    
+    public void setFlightNumber(String flightNumber)
+    {
+        this.flightNumber = flightNumber;
+    }
+    
+    public void setTravelDay (String travelDay)
+    {
+       this.weekDay = weekDay;
+    }
+    
+    public void setDestination(String destination)
+    {
+        this.destination = destination;
+    }
+    
+    public void setSeatsBookedNum(int seatsBookedNum)
+    {
+        this.seatsBookedNum = seatsBookedNum;
+    }
+    
+    public boolean freeSeats()
+    {
+        if (this.seatsBookedNum < 10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public String toString()
+    {
+        return "the flight number is " + this.flightNumber + "\n" + 
+        "the flight is flying on " + this.weekDay + "\n" + 
+        "The flight is going to " + this.destination + "\n" + 
+        "There are " + this.seatsBookedNum + " booked seats";
+        
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Driver class
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class AirlineDriver
+{
+    // Global varaibles
+    ArrayList <Flight> flightList;
+    final int FLIGHTS_NUMBER = 5;
+
+    ArrayList <Passenger> passengerList;
+    final int PASSENGER_NUMBER = 10;
+
+    //Constructor
+    public AirlineDriver()
+    {
+        Scanner scan = new Scanner (System.in);
+        System.out.print("\f");
+
+        // create blank ArrayLists
+        flightList = new ArrayList <Flight>();
+
+        passengerList = new ArrayList <Passenger>();
+
+        createFlights();
+
+        processMenuOptions();
+
+        bookAFlight();
+
+        cancelABooking();
+
+        displayFlightSchedule();
+
+        selectSeatType();
+
+        displayPassengerBookings();
+
+
+    }
+
+    public void createFlights()
+    {
+        Scanner scan = new Scanner (System.in);
+        System.out.print("\f");
+
+        String flightNumber;
+        String weekDay;
+        String destination;
+        int seatsBookedNum = 0;
+
+        for (int count = 0; count < FLIGHTS_NUMBER; count ++)
+        {
+            do
+            {
+                System.out.println("Enter flight number (first 2 letters must be EI then followed by 3 digits) ");
+                flightNumber = scan.nextLine();
+
+            } while (flightNumber.charAt(0) != 'E' || flightNumber.charAt(1) != 'I');
+
+            System.out.println("Enter the destination ");
+            destination = scan.nextLine();
+
+            System.out.println("Enter the day of the flight ");
+            weekDay = scan.nextLine();
+
+            if (!weekDay.equals("monday") || !weekDay.equals("tuesday") || !weekDay.equals("wednesday") || !weekDay.equals("thursday") || !weekDay.equals("friday") || !weekDay.equals("saturday") || !weekDay.equals("sunday"))
+            {
+                System.out.println("Enter a week day ");
+
+            }
+
+            Flight aFlight = new Flight(flightNumber, weekDay, destination, 0);
+            flightList.add(aFlight);
+        }
+    }
+
+    public void displayMenu()
+    {
+        Scanner scan = new Scanner (System.in);    
+        System.out.println("");
+        //String option;
+        System.out.println("\t Please pick an option from the menu below: ");
+        System.out.println("\t 1. Book a flight ");
+        System.out.println("\t 2. Cancel a booking ");
+        System.out.println("\t 3. Display full flight schedule ");
+        System.out.println("\t 4. Display passenger bookings ");
+        System.out.println("\t 5. Select type of seat ");
+        System.out.println("\t 6. Exit ");
+
+    }
+
+    public void processMenuOptions()
+    {
+        Scanner scan = new Scanner (System.in);
+        String userEnter;
+        do
+        {
+            displayMenu();
+            System.out.print("\n Enter a option: ");
+            userEnter = scan.nextLine();
+
+            if (userEnter.equals("1"))
+            {
+                bookAFlight();
+            }
+            else if (userEnter.equals("2"))
+            {
+                cancelABooking();
+            }
+            else if (userEnter.equals("3"))
+            {
+                displayFlightSchedule();
+            }
+            else if (userEnter.equals("4"))
+            {
+                displayPassengerBookings();
+            }
+            else if (userEnter.equals("5"))
+            {
+                selectSeatType();
+            }
+        } while (!userEnter.equals("6"));
+    } 
+
+    public Flight getFlightfound(String destination, String travelDay)
+    {
+        Flight found = null;    
+        for (Flight F: flightList)
+        {
+            if(destination.equalsIgnoreCase(F.getDestination()) && travelDay.equalsIgnoreCase(F.getWeekDay()))
+            {
+                found = F;
+            }
+        }
+        return found; 
+    }
+
+    public void bookAFlight()
+    {
+        System.out.println("\f");
+        Scanner scan = new Scanner (System.in);
+        
+        Flight found =  null;
+        Flight aFlight;
+        //Passenger aPassenger;
+        String destination;
+        String travelDay;
+
+        System.out.println("Please enter where you would like to go: ");
+        destination = scan.nextLine();
+        System.out.println("Please enter the day you would like to travel: ");
+        travelDay = scan.nextLine();
+
+        found = getFlightfound(destination, travelDay);
+        if (found == null)
+        {
+            System.out.println("Error! These details do not match a flight: ");
+        }
+        else if(found.freeSeats() == false)
+        {
+            System.out.println("This flight is already full. Please book another flight. ");
+            bookAFlight();
+        }
+        else if (found != null && (found.freeSeats() == true))
+        {
+            System.out.println("These details match a flight: ");
+            System.out.println("");
+            System.out.println("Please enter your details: ");
+            System.out.println("");
+
+            String name;
+            String emailAddress;
+            String address;
+
+            System.out.println("Enter your name: ");
+            name = scan.nextLine();
+            System.out.println("Enter your email address; ");
+            emailAddress = scan.nextLine();
+            System.out.println("Enter your address: ");
+            address = scan.nextLine();
+
+            Passenger aPassenger = new Passenger (name, emailAddress, address, found);
+            passengerList.add(aPassenger);
+
+            //found.setSeatsBookedNum(+1);
+
+            int count = aPassenger.getBookedFlight().getSeatsBookedNum();
+            count = (count +1);
+            aPassenger.getBookedFlight().setSeatsBookedNum(count);
+
+            System.out.println("You are now booked on " + found.toString());
+
+            for (Passenger P: passengerList)
+            {
+                System.out.println(P.toString());
+            }
+
+        }
+    }
+
+    public void cancelABooking()
+    {
+        Scanner scan = new Scanner (System.in);
+        System.out.print("\f");
+        String name;
+        String flightNumber;
+        
+
+        Flight aFlight;
+        Passenger aPassenger;
+        
+        System.out.println("Enter your name: ");
+        name = scan.nextLine();
+        System.out.println("Enter the Flight number: ");
+        flightNumber = scan.nextLine();
+
+        for (Passenger P: passengerList)
+        {            
+            if (P.getName().equals(name))
+            {
+                P.getBookedFlight().getFlightNumber();
+            }
+
+            int count = P.getBookedFlight().getSeatsBookedNum();
+            count = (count -1);
+            P.getBookedFlight().setSeatsBookedNum(count);
+
+            P.setBookedFlight(null);
+
+            System.out.println("Your booking has been cancelled. ");
+        }    
+    }
+
+    public void displayFlightSchedule()
+    {
+        System.out.print("\f");
+
+        for (Flight F : flightList)
+        {
+            System.out.println("The flight schedule is: ");
+            System.out.println(flightList.toString());
+        }
+
+    }
+
+    public void selectSeatType() // Extra option.
+    {
+        Scanner scan = new Scanner (System.in);
+        String seat;
+        System.out.println("Select the type of seat you would like (Economy, Business class or First class) : ");
+        seat = scan.nextLine();
+
+        if (seat.equalsIgnoreCase("Economy"))
+        {
+            System.out.println("You have been booked a Economy class seat. ");
+        }
+        else if (seat.equalsIgnoreCase("Business class"))
+        {
+            System.out.println("You have been booked on a Business class seat. ");
+        }
+        else if (seat.equalsIgnoreCase("First class"))
+        {
+            System.out.println("You have been booked on a First class seat. ");
+        }
+
+    }
+    
+    public void displayPassengerBookings()
+    {
+        System.out.print("\f");
+        System.out.println("The passenger bookings are: ");
+
+        for (Passenger P : passengerList)
+        {
+            System.out.println(passengerList.toString());
+        }
+
+    }  
+
+    public static void main (String args[]) 
+    {
+        new AirlineDriver();
+    }
+}
