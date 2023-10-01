@@ -1,0 +1,448 @@
+// Generics package
+// LinearNode
+
+  package generics;   
+
+
+    public class LinearNode<T>
+    {
+       private LinearNode<T> next;
+       private T element;
+    
+       //---------------------------------------------------------
+       //  Creates an empty node.
+       //---------------------------------------------------------
+       public LinearNode()
+       {
+          this.next = null;
+          this.element = null;
+       }
+    
+       //---------------------------------------------------------
+       //  Creates a node storing the specified element.
+       //---------------------------------------------------------
+       public LinearNode (T elem)
+       {
+          this.next = null;
+          this.element = elem;
+       }
+    
+       //---------------------------------------------------------
+       //  Returns the node that follows this one.
+       //---------------------------------------------------------
+       public LinearNode<T> getNext()
+       {
+          return this.next;
+       }
+    
+       //---------------------------------------------------------
+       //  Sets the node that follows this one.
+       //---------------------------------------------------------
+       public void setNext (LinearNode<T> node)
+       {
+          this.next = node;
+       }
+    
+       //---------------------------------------------------------
+       //  Returns the element stored in this node.
+       //---------------------------------------------------------
+       public T getElement()
+       {
+          return this.element;
+       }
+    
+       //---------------------------------------------------------
+       //  Sets the element stored in this node.
+       //---------------------------------------------------------
+       public void setElement (T elem)
+       {
+          this.element = elem;
+       }
+    }
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// LinkedList ADT
+// //Abstract Data Type definition for a Linked List
+
+package generics;
+
+public interface LinkedListADT <T>
+	{
+	   //  Adds one element to the start or end of this list
+	   public void add (T element);
+
+	   //  Removes and returns the first element from this list
+	   public T remove();
+  
+	   //  Returns true if this list contains no elements
+	   public boolean isEmpty();
+
+	   //  Returns the number of elements in this list
+	   public int size();
+
+	   //  Returns a string representation of this list
+	   public String toString();
+	
+
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// LinkedList
+
+public class LinkedList<T> implements LinkedListADT<T> {
+	
+	 private int count;  // the current number of elements in the list
+	 private LinearNode<T> list; //pointer to the first element 
+	 private LinearNode<T> last; //pointer to the last element 
+	 
+	 //-----------------------------------------------------------------
+	 //  Creates an empty list.
+	 //-----------------------------------------------------------------
+	    public LinkedList()
+	    {
+	       this.count = 0;
+	       this.last = null;
+	       this.list = null;
+	    }
+
+	    
+	 //  Adds one element to the end of this list
+	   public void add (T element)
+	   {      
+		   LinearNode<T> node = new LinearNode<T> (element); 
+       
+		   if (size() == 0) {  
+			   	this.last = node; // This is the last and the 
+			 	this.list = node; // first node
+			 	this.count++;
+		   }//end if
+		   else
+		     { 
+				  last.setNext(node); // add node to the end of the list
+				  last = node; // now make this the new last node.
+				  this.count++;   
+		      } //end else
+	   }
+	   
+
+	   //  Removes and returns the first element from this list
+	
+	public T remove()
+	   {
+		   LinearNode<T> temp = null;
+		   T result = null;
+			if (isEmpty()) {
+				System.out.println("There are no nodes in the list");
+			}//end if
+			else {
+				
+				result = this.list.getElement();
+				temp = list;
+				this.list = this.list.getNext();
+				temp.setNext(null); //dereference the original first element
+				count--;
+			}//end else
+			return result;
+
+	   }
+	public void removeV2(T element)
+	{
+		LinearNode<T> current = this.list;
+		LinearNode<T> previous = this.list;
+		T result = null;
+		
+		for(current = this.list; current != null && !current.getElement().equals(element); current = current.getNext())
+		{
+			previous = current;
+		}
+		
+				if (isEmpty()) {
+					System.out.println("There are no nodes in the list");
+				}//end if
+				else if(current == list)
+				{
+					
+					result = this.list.getElement();
+					current = list;
+					this.list = this.list.getNext();
+					current.setNext(null); //dereference the original first element
+					count--;
+				}//end else
+				else if(current == last)
+				{
+					result = this.last.getElement();
+					current = last;
+					current.setNext(previous);
+					previous.setNext(null);
+					previous = last;
+					count --;
+					
+				}
+				else
+				{
+					previous.setNext(current.getNext());
+					current.setNext(null);
+					count --;
+				}
+			
+		
+		}
+
+	  
+	   
+	   //  Returns true if this list contains no elements
+	   public boolean isEmpty()
+	   {
+		   if (this.list == null)
+			   return true;
+		   else
+			   return false;
+	   }
+
+
+	   //  Returns the number of elements in this list
+	   public int size()
+	   {
+		   return this.count;
+	   }
+
+	   //  Returns a string representation of this list
+	  
+
+
+	public String toString()
+	   {
+		   LinearNode<T> current = null;
+		   String fullList = "";
+		   
+		   for (current = this.list; current != null; current = current.getNext())
+		   {
+			   fullList = fullList + "\n" + current.getElement().toString();
+		   }//end for
+		   
+		   return fullList + "\n";
+	   }
+	
+	public T get(int i)
+	{
+		LinearNode<T> current = this.list;
+		
+		for(int count = 1; count < 1; count ++ )
+		{
+			current = current.getNext();
+		}
+		
+		return current.getElement();
+		
+		
+	}
+	
+	public boolean contains(T element)
+	{
+		LinearNode<T> current = this.list;
+		boolean a = false;
+		
+		for(current = this.list; current != null; current = current.getNext())
+		{
+			if(element.equals(current.getElement()))
+			{
+				a = true;
+			}
+			else
+			{
+				a = false;
+			}
+		}
+		return a;
+	}
+	
+	public LinearNode<T> insert(T element)
+	{
+		LinearNode<T> current = this.list;
+		
+		for(current = this.list; current != null && !current.getElement().equals(element); current = current.getNext())
+		{
+			current = current.getNext();
+			
+		}
+		return current;
+		
+		
+		
+	}
+	
+
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Application package
+// Book Class
+package application;
+
+public class Book {
+	private String title;
+	private String author;
+	private int year;
+	
+	public Book()
+	{
+		this.title = "";
+		this.author = "";
+		this.year = 0;
+	}
+	
+	public Book(String title, String author, int year)
+	{
+		this.title = title;
+		this.author = author;
+		this.year = year;
+	}
+	
+	public String getTitle()
+	{
+		return this.title;
+	}
+	
+	public String getAuthor()
+	{
+		return this.author;
+	}
+	
+	public int getYear()
+	{
+		return this.year;
+	}
+	
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+	
+	public void setAuthor(String author)
+	{
+		this.author = author;
+	}
+	
+	public void setYear(int year)
+	{
+		this.year = year;
+	}
+	
+	public String toString() 
+	{
+		return "\nTitle: " + this.title + " Author: " + this.author + " Year: " + this.year;
+	}
+	
+	public boolean equals (Object o)
+	{
+		Book b = (Book) o;
+		if (this.title.equals(b.getTitle()) && this.author.equals(b.getAuthor()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Driver class
+
+package application;
+import java.util.Scanner;
+import generics.LinkedList;
+
+public class BookShelfLinked {
+	LinkedList<Book>List;
+	final int SIZE = 3;
+	
+	public BookShelfLinked()
+	{
+		List = new LinkedList<>();
+		
+		for (int index = 0; index < SIZE; index++)
+		{
+			addBook();
+		}
+		displayBooks();
+		removeBook();
+		displayBooks();
+		findBook();
+		
+	}
+	
+	public void addBook()
+	{
+		Scanner scan = new Scanner(System.in);
+		
+		Book aBook = null;
+		String title, author;
+		int year;
+		boolean b = false;
+		
+			
+	do
+	{
+		System.out.println("Enter the title of the book: ");
+		title = scan.nextLine();
+		System.out.println("Enter the author of the book: ");
+		author = scan.nextLine();
+		System.out.println("Enter the year the book was published in: ");
+		year = scan.nextInt();
+		scan.nextLine();
+		
+		aBook = new Book(title, author, year);
+		
+	}while(!List.contains(aBook));
+	
+	List.add(aBook);
+		
+	}
+	
+	public void displayBooks()
+	{
+		System.out.println(List.toString());
+	}
+	
+	public void removeBook()
+	{
+		Book b = null;
+		
+		b = List.remove();
+		System.out.println("The book " + b.getTitle() + " has been removed");
+		
+	}
+	
+	public void findBook()
+	{
+		Scanner scan = new Scanner(System.in);
+		int number = 0;
+		System.out.println("Enter the position of the book: ");
+		number = scan.nextInt();
+		scan.nextLine();
+		
+		if(number > 2)
+		{
+			System.out.println("Book not found");
+		}
+		else
+		{
+			Book b = List.get(number);
+			System.out.println("Book " + number + " is " + b.getTitle());
+		}
+	}
+	
+	
+
+	public static void main (String[] args)
+	{
+		new BookShelfLinked();
+	}
+	
+
+}
+
+
