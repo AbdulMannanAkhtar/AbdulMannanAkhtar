@@ -4,7 +4,7 @@
 ## About Me :man_technologist:
 * I am persuing a Bachelor of Science (Honours) in Business Computing from TU Dublin :books:
 * I am in my third year
-* Born in raised in Ireland :ireland:
+* Born and raised in Ireland :ireland:
 * Parents from Pakistan :pakistan:
 
 ## Intrests :dart:
