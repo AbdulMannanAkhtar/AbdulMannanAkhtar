@@ -2,10 +2,9 @@
 # Hi :wave: I'm Abdul
 
 ## About Me :man_technologist:
-* I am pursuing a Bachelor of Science (Honours) in Business Computing from TU Dublin :books:
-* I am in my final year year
+* B.S.c Business Computing Graduate, awaiting formal graduation :books:
 * Born and raised in Ireland :ireland:
-* Parents from Pakistan :pakistan:
+
 
 ## Intrests :dart:
 * Technology :computer:
@@ -13,19 +12,18 @@
 * Formula 1 :racing_car:
 
 ## Programming languages and technologies :briefcase:
+* Java
+* SpringBoot
+* Kotlin
 * Python
 * Django
-* Java
-* Struts2
 * C
 * HTML
 * CSS
 * JavaScript
 * SQL
-* MS Access
-* Appache tomCat
-* Visual Studio Code
-* Eclipse
+* React
+
  
 
 <!---
