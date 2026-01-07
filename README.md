@@ -2,7 +2,7 @@
 # Hi :wave: I'm Abdul
 
 ## About Me :man_technologist:
-* B.S.c Business Computing Graduate, awaiting formal graduation :books:
+* B.S.c Business Computing Graduate :books:
 * Born and raised in Ireland :ireland:
 
 
