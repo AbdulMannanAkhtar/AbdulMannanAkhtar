@@ -6,7 +6,7 @@
 * Born and raised in Ireland :ireland:
 
 
-## Intrests :dart:
+## Interests :dart:
 * Technology :computer:
 * Cricket :cricket_game:
 * Formula 1 :racing_car:
